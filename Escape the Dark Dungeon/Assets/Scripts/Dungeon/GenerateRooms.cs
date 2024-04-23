@@ -97,34 +97,28 @@ public class GenerateRooms : DungeonGenerator
     private HashSet<Vector2Int> GenerateCorridorBetween2Rooms(Vector2Int currRoom, Vector2Int nextRoom)
     {
         HashSet<Vector2Int> corridor = new HashSet<Vector2Int>();
-        var direction = currRoom;
-        corridor.Add(direction);
-        while(direction.x != nextRoom.x)
+
+        corridor.Add(currRoom);
+
+        while (currRoom.x != nextRoom.x)
         {
-            if(direction.x < nextRoom.x)
-            {
-                direction += new Vector2Int(1, 0);
-            }
-            else if(direction.x > nextRoom.x)
-            {
-                direction += new Vector2Int(-1, 0);
-            }
-            corridor.Add(direction);
-        }   
-        while(direction.y != nextRoom.y)
-        {
-            if(direction.y < nextRoom.y)
-            {
-                direction += new Vector2Int(0, 1);
-            }
-            else if(direction.y > nextRoom.y)
-            {
-                direction += new Vector2Int(0, -1);
-            }
-            corridor.Add(direction);
+            int step = (nextRoom.x > currRoom.x) ? 1 : -1;
+            currRoom += new Vector2Int(step, 0);
+            corridor.Add(currRoom);
+            corridor.Add(new Vector2Int(currRoom.x, currRoom.y + 1)); // Expand corridor one tile above
         }
-        return corridor;    
+
+        while (currRoom.y != nextRoom.y)
+        {
+            int step = (nextRoom.y > currRoom.y) ? 1 : -1;
+            currRoom += new Vector2Int(0, step);
+            corridor.Add(currRoom);
+            corridor.Add(new Vector2Int(currRoom.x - 1, currRoom.y)); // Expand corridor one tile to the left
+        }
+
+        return corridor;
     }
+
 
     private Vector2Int GetClosestRoom(Vector2Int currRoom, List<Vector2Int> xRoomCenter)
     {

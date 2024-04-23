@@ -1,36 +1,50 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterController : MonoBehaviour
 {
-    public Animator animator;
-    public float moveSpeed = 5f; // Adjust this value to control movement speed
-    public float movementThreshold = 0.1f; // Adjust this value to set the threshold for transitioning between idle and run animations
+    private CharacterMovement characterMovement;
+    private Vector2 pointerInput, movementInput;
+    public Vector2 PointerInput => pointerInput;
+    [SerializeField]
+    private InputActionReference movementAction, pointerAction, attackAction;
 
+    private void onEnable()
+    {
+        attackAction.action.performed += CharacterAttack;
+    }
+
+    private void OnDisable()
+    {
+        attackAction.action.performed -= CharacterAttack;
+    }
+
+    private void CharacterAttack(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void Awake()
+    {
+        characterMovement = GetComponent<CharacterMovement>();
+    }
     private void Update()
     {
-        // Get horizontal input
-        float horizontalInput = Input.GetAxis("Horizontal");
+        pointerInput = getMousePosition();
+        movementInput = movementAction.action.ReadValue<Vector2>();
+        characterMovement.movementInput = movementInput;
 
-        // Set horizontalMovement parameter in Animator
-        animator.SetFloat("horizontalMovement", Mathf.Abs(horizontalInput));
-
-        // Check if character is moving horizontally
-        bool isMovingHorizontally = Mathf.Abs(horizontalInput) > movementThreshold;
-
-        // Move the character
-        Vector3 movement = new Vector3(horizontalInput, 0.0f, 0.0f) * moveSpeed * Time.deltaTime;
-        transform.position += movement;
-
-        // Update animation state based on movement
-        if (isMovingHorizontally)
+        if(attackAction.action.triggered)
         {
-            // Transition to run animation
-            animator.Play("Run");
+            Debug.Log("Attack");
         }
-        else
-        {
-            // Transition to idle animation
-            animator.Play("Idle");
-        }
+    }
+
+    private Vector2 getMousePosition()
+    {
+        Vector3 position = pointerAction.action.ReadValue<Vector2>();
+        position.z = Camera.main.nearClipPlane;
+        return Camera.main.ScreenToWorldPoint(position);
     }
 }
