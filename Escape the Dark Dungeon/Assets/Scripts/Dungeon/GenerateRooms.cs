@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.WebSockets;
-using UnityEditor.Tilemaps;
 using UnityEngine;
-using UnityEngine.UIElements.Experimental;
 
 public class GenerateRooms : DungeonGenerator
 {
@@ -21,6 +18,10 @@ public class GenerateRooms : DungeonGenerator
     private int spaceBetween = 1; // space between rooms
     [SerializeField]
     private bool randomWalk = false;
+    [SerializeField]
+    private GameObject monsterPrefab; // Monster prefab to spawn
+    [SerializeField]
+    private GameObject player; // Reference to the player GameObject
 
     protected override void RunMapGeneration()
     {
@@ -43,52 +44,59 @@ public class GenerateRooms : DungeonGenerator
         }
 
         // Now we will find the center of each room and place it in a list
-        List<Vector2Int> xRoomCenter = new List<Vector2Int>();
-        foreach(var room in listOfRooms)
+        List<Vector2Int> roomCenters = new List<Vector2Int>();
+        foreach (var room in listOfRooms)
         {
-            xRoomCenter.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
+            roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
         }
+
+        // Find the player's starting room center
+        Vector2Int playerStartRoomCenter = FindPlayerStartRoom(roomCenters);
+        
+        // Spawn monsters in each room except the player's start room
+        SpawnMonstersInRooms(roomCenters, playerStartRoomCenter);
 
         // After we did that we will create corridors between the rooms
         HashSet<Vector2Int> corridors = new HashSet<Vector2Int>();
-        corridors = GenerateCorridors(xRoomCenter);
+        corridors = GenerateCorridors(roomCenters);
         roomFloor.UnionWith(corridors);
 
         tilemapVisualizer.paintTiles(roomFloor);
         WallsGenerator.GenerateWalls(roomFloor, tilemapVisualizer);
+
     }
 
     private HashSet<Vector2Int> RandomWalk(List<BoundsInt> listOfRooms)
     {
         HashSet<Vector2Int> roomFloor = new HashSet<Vector2Int>();
-        for(int i = 0; i < listOfRooms.Count; i++)
+        for (int i = 0; i < listOfRooms.Count; i++)
         {
             var room = listOfRooms[i];
             var center = new Vector2Int(Mathf.RoundToInt(room.center.x), Mathf.RoundToInt(room.center.y));
             var getFloor = SimpleRandomWalk(randomWalkData, center);
-            foreach(var pos in getFloor)
+            foreach (var pos in getFloor)
             {
-                if(pos.x >= (room.xMin + spaceBetween) && pos.x <= (room.xMax - spaceBetween) && 
+                if (pos.x >= (room.xMin + spaceBetween) && pos.x <= (room.xMax - spaceBetween) &&
                     pos.y >= (room.yMin - spaceBetween) && pos.y <= (room.yMax - spaceBetween))
                 {
-                      roomFloor.Add(pos);
+                    roomFloor.Add(pos);
                 }
             }
         }
         return roomFloor;
     }
 
-    private HashSet<Vector2Int> GenerateCorridors(List<Vector2Int> xRoomCenter)
+    private HashSet<Vector2Int> GenerateCorridors(List<Vector2Int> roomCenters)
     {
         HashSet<Vector2Int> corridors = new HashSet<Vector2Int>();
-        var curentRoom = xRoomCenter[UnityEngine.Random.Range(0, xRoomCenter.Count)];
-        xRoomCenter.Remove(curentRoom);
-        while(xRoomCenter.Count > 0)
+        var currentRoom = roomCenters[UnityEngine.Random.Range(0, roomCenters.Count)];
+        roomCenters.Remove(currentRoom);
+        while (roomCenters.Count > 0)
         {
-            var nextRoom = GetClosestRoom(curentRoom, xRoomCenter);
-            xRoomCenter.Remove(nextRoom);
-            HashSet<Vector2Int> corridor = GenerateCorridorBetween2Rooms(curentRoom, nextRoom);
-            curentRoom = nextRoom;
+            var nextRoom = GetClosestRoom(currentRoom, roomCenters);
+            roomCenters.Remove(nextRoom);
+            HashSet<Vector2Int> corridor = GenerateCorridorBetween2Rooms(currentRoom, nextRoom);
+            currentRoom = nextRoom;
             corridors.UnionWith(corridor);
         }
         return corridors;
@@ -119,17 +127,16 @@ public class GenerateRooms : DungeonGenerator
         return corridor;
     }
 
-
-    private Vector2Int GetClosestRoom(Vector2Int currRoom, List<Vector2Int> xRoomCenter)
+    private Vector2Int GetClosestRoom(Vector2Int currRoom, List<Vector2Int> roomCenters)
     {
         Vector2Int closestRoom = new Vector2Int(0, 0);
         float minDistance = float.MaxValue;
-        Vector2Int randomRoom = xRoomCenter[UnityEngine.Random.Range(0, xRoomCenter.Count)];
+        Vector2Int randomRoom = roomCenters[UnityEngine.Random.Range(0, roomCenters.Count)];
         // We check all the rooms to get the closest one to our currRoom
-        foreach(var room in xRoomCenter)
+        foreach (var room in roomCenters)
         {
             float distance = Vector2Int.Distance(currRoom, room);
-            if(distance < minDistance)
+            if (distance < minDistance)
             {
                 minDistance = distance;
                 closestRoom = room;
@@ -154,5 +161,52 @@ public class GenerateRooms : DungeonGenerator
             }
         }
         return roomFloor;
+    }
+
+    private Vector2Int FindPlayerStartRoom(List<Vector2Int> roomCenters)
+    {
+        Vector2Int playerPosition = Vector2Int.RoundToInt(player.transform.position);
+        Vector2Int closestRoomCenter = roomCenters[0];
+        float minDistance = Vector2Int.Distance(playerPosition, closestRoomCenter);
+
+        foreach (var roomCenter in roomCenters)
+        {
+            float distance = Vector2Int.Distance(playerPosition, roomCenter);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestRoomCenter = roomCenter;
+            }
+        }
+
+        return closestRoomCenter;
+    }
+
+    private void SpawnMonstersInRooms(List<Vector2Int> roomCenters, Vector2Int playerStartRoomCenter)
+    {
+        foreach (var roomCenter in roomCenters)
+        {
+            if (roomCenter != playerStartRoomCenter)
+            {
+                int monsterCount = UnityEngine.Random.Range(2, 4); // Spawns between 2 and 3 monsters
+                for (int i = 0; i < monsterCount; i++)
+                {
+                    Vector2Int spawnPosition = GetValidSpawnPosition(roomCenter);
+                    Instantiate(monsterPrefab, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
+                }
+            }
+        }
+    }
+
+    // Function so monsters don't spawn outside of the room
+    private Vector2Int GetValidSpawnPosition(Vector2Int roomCenter)
+    {
+        int halfRoomWidth = roomWidth / 2 - spaceBetween;
+        int halfRoomLength = roomLength / 2 - spaceBetween;
+
+        int spawnX = UnityEngine.Random.Range(roomCenter.x - halfRoomWidth, roomCenter.x + halfRoomWidth);
+        int spawnY = UnityEngine.Random.Range(roomCenter.y - halfRoomLength, roomCenter.y + halfRoomLength);
+
+        return new Vector2Int(spawnX, spawnY);
     }
 }

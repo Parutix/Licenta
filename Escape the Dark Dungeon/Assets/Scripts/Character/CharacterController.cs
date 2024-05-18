@@ -7,7 +7,7 @@ public class CharacterController : MonoBehaviour
     private CharacterMovement characterMovement;
     private SpriteRenderer spriteRenderer;
     private Vector2 pointerInput, movementInput;
-    public Vector2 PointerInput => pointerInput;
+    public Vector2 PointerInput => pointerInput;    
     [SerializeField]
     private InputActionReference movementAction, pointerAction, attackAction;
 
@@ -62,8 +62,8 @@ public class CharacterController : MonoBehaviour
         Vector3 mousePosition = Input.mousePosition;
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         Vector2 direction = new Vector2(
-        mousePosition.x - transform.position.x,
-        mousePosition.y - transform.position.y
+            mousePosition.x - transform.position.x,
+            mousePosition.y - transform.position.y
         );
         transform.up = direction;
     }
