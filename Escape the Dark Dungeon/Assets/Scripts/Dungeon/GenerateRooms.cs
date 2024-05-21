@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GenerateRooms : DungeonGenerator
 {
@@ -22,6 +24,11 @@ public class GenerateRooms : DungeonGenerator
     private GameObject monsterPrefab; // Monster prefab to spawn
     [SerializeField]
     private GameObject player; // Reference to the player GameObject
+    [SerializeField]
+    private Tilemap tilemap;
+    [SerializeField]
+    private TileBase[] validTile;
+
 
     protected override void RunMapGeneration()
     {
@@ -201,12 +208,14 @@ public class GenerateRooms : DungeonGenerator
     // Function so monsters don't spawn outside of the room
     private Vector2Int GetValidSpawnPosition(Vector2Int roomCenter)
     {
-        int halfRoomWidth = roomWidth / 2 - spaceBetween;
-        int halfRoomLength = roomLength / 2 - spaceBetween;
+        int spawnAreaWidth = roomWidth / 4; 
+        int spawnAreaLength = roomLength / 4;
 
-        int spawnX = UnityEngine.Random.Range(roomCenter.x - halfRoomWidth, roomCenter.x + halfRoomWidth);
-        int spawnY = UnityEngine.Random.Range(roomCenter.y - halfRoomLength, roomCenter.y + halfRoomLength);
+        int spawnX = UnityEngine.Random.Range(roomCenter.x - spawnAreaWidth, roomCenter.x + spawnAreaWidth + 1);
+        int spawnY = UnityEngine.Random.Range(roomCenter.y - spawnAreaLength, roomCenter.y + spawnAreaLength + 1);
 
         return new Vector2Int(spawnX, spawnY);
     }
+
+
 }

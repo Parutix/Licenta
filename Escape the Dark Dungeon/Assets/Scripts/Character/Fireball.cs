@@ -18,7 +18,15 @@ public class Fireball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Fireball collided with: " + collision.gameObject.name);
+        Debug.Log("Fireball collided with " + collision.gameObject.name);
+        EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
+        if (enemyHealth != null)
+        {
+            Debug.Log("Enemy health found");
+            enemyHealth.TakeDamage();
+        }
+
+        // Destroy the fireball after collision with any object
         Destroy(gameObject);
     }
 }
