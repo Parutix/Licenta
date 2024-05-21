@@ -8,6 +8,9 @@ public class EnemyFollow : MonoBehaviour
     [SerializeField]
     private GameObject player;
     private NavMeshAgent agent;
+    [SerializeField]
+    private float distanceThreshold = 10f;
+    private bool isFollowing = false;
 
     void Start()
     {
@@ -39,7 +42,12 @@ public class EnemyFollow : MonoBehaviour
     {
         if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh && player != null)
         {
-            agent.SetDestination(player.transform.position);
+            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+            if(distanceToPlayer <= distanceThreshold || isFollowing == true)
+            {
+                agent.SetDestination(player.transform.position);
+                isFollowing = true;
+            }
         }
     }
 
