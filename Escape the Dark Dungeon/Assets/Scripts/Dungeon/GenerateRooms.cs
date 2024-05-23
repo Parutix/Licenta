@@ -29,7 +29,6 @@ public class GenerateRooms : DungeonGenerator
     [SerializeField]
     private TileBase[] validTile;
 
-
     protected override void RunMapGeneration()
     {
         RoomSpawner();
@@ -59,9 +58,9 @@ public class GenerateRooms : DungeonGenerator
 
         // Find the player's starting room center
         Vector2Int playerStartRoomCenter = FindPlayerStartRoom(roomCenters);
-        
+
         // Spawn monsters in each room except the player's start room
-        SpawnMonstersInRooms(roomCenters, playerStartRoomCenter);
+        SpawnMonstersInRooms(roomCenters, playerStartRoomCenter, roomFloor);
 
         // After we did that we will create corridors between the rooms
         HashSet<Vector2Int> corridors = new HashSet<Vector2Int>();
@@ -70,7 +69,6 @@ public class GenerateRooms : DungeonGenerator
 
         tilemapVisualizer.paintTiles(roomFloor);
         WallsGenerator.GenerateWalls(roomFloor, tilemapVisualizer);
-
     }
 
     private HashSet<Vector2Int> RandomWalk(List<BoundsInt> listOfRooms)
@@ -189,7 +187,7 @@ public class GenerateRooms : DungeonGenerator
         return closestRoomCenter;
     }
 
-    private void SpawnMonstersInRooms(List<Vector2Int> roomCenters, Vector2Int playerStartRoomCenter)
+    private void SpawnMonstersInRooms(List<Vector2Int> roomCenters, Vector2Int playerStartRoomCenter, HashSet<Vector2Int> roomFloor)
     {
         foreach (var roomCenter in roomCenters)
         {
@@ -198,7 +196,7 @@ public class GenerateRooms : DungeonGenerator
                 int monsterCount = UnityEngine.Random.Range(2, 4); // Spawns between 2 and 3 monsters
                 for (int i = 0; i < monsterCount; i++)
                 {
-                    Vector2Int spawnPosition = GetValidSpawnPosition(roomCenter);
+                    Vector2Int spawnPosition = GetValidSpawnPosition(roomCenter, roomFloor);
                     Instantiate(monsterPrefab, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
                 }
             }
@@ -206,16 +204,29 @@ public class GenerateRooms : DungeonGenerator
     }
 
     // Function so monsters don't spawn outside of the room
-    private Vector2Int GetValidSpawnPosition(Vector2Int roomCenter)
+    private Vector2Int GetValidSpawnPosition(Vector2Int roomCenter, HashSet<Vector2Int> roomFloor)
     {
-        int spawnAreaWidth = roomWidth / 4; 
-        int spawnAreaLength = roomLength / 4;
+        List<Vector2Int> validSpawnPositions = new List<Vector2Int>();
 
-        int spawnX = UnityEngine.Random.Range(roomCenter.x - spawnAreaWidth, roomCenter.x + spawnAreaWidth + 1);
-        int spawnY = UnityEngine.Random.Range(roomCenter.y - spawnAreaLength, roomCenter.y + spawnAreaLength + 1);
+        for (int x = roomCenter.x - roomWidth / 2; x <= roomCenter.x + roomWidth / 2; x++)
+        {
+            for (int y = roomCenter.y - roomLength / 2; y <= roomCenter.y + roomLength / 2; y++)
+            {
+                Vector2Int potentialSpawn = new Vector2Int(x, y);
+                if (roomFloor.Contains(potentialSpawn))
+                {
+                    validSpawnPositions.Add(potentialSpawn);
+                }
+            }
+        }
 
-        return new Vector2Int(spawnX, spawnY);
+        if (validSpawnPositions.Count > 0)
+        {
+            return validSpawnPositions[UnityEngine.Random.Range(0, validSpawnPositions.Count)];
+        }
+        else
+        {
+            return roomCenter; // Fallback to room center if no valid positions are found
+        }
     }
-
-
 }
