@@ -6,14 +6,14 @@ public class EnemyAttack : MonoBehaviour
 {
     [SerializeField]
     private int enemyDamage = 3;
-    private PlayerHealth playerHealth;
+    private HealthBar playerHealth;
 
     void Start()
     {
         GameObject player = GameObject.Find("Player");
         if (player != null)
         {
-            playerHealth = player.GetComponent<PlayerHealth>();
+            playerHealth = player.GetComponent<HealthBar>();
             if (playerHealth == null)
             {
                 Debug.LogError("PlayerHealth component not found on the Player GameObject.");
