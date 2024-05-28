@@ -46,4 +46,11 @@ public class HealthBar : MonoBehaviour
             UpdateHealth();
         }
     }
+
+    public void Heal(int healAmount)
+    {
+        currentHealth += healAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        UpdateHealth();
+    }
 }
