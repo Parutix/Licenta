@@ -189,7 +189,6 @@ public class GenerateRooms : DungeonGenerator
 
     private void SpawnMonstersInRooms(List<Vector2Int> roomCenters, Vector2Int playerStartRoomCenter, HashSet<Vector2Int> roomFloor)
     {
-        MonsterData.MonsterCounter = 0;
         foreach (var roomCenter in roomCenters)
         {
             if (roomCenter != playerStartRoomCenter)
@@ -199,8 +198,6 @@ public class GenerateRooms : DungeonGenerator
                 {
                     Vector2Int spawnPosition = GetValidSpawnPosition(roomCenter, roomFloor);
                     GameObject monster = Instantiate(monsterPrefab, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
-                    monster.name = "Monster " + MonsterData.MonsterCounter;
-                    MonsterData.MonsterCounter++;
                 }
             }
         }

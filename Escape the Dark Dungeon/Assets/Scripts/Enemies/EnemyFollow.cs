@@ -10,21 +10,23 @@ public class EnemyFollow : MonoBehaviour
     private NavMeshAgent agent;
     [SerializeField]
     private float distanceThreshold = 10f;
+    private float stopThreshold = 1f;
     private bool isFollowing = false;
+    private EnemyAttack enemyAttack;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         if (player == null)
         {
-            Debug.LogError("Player GameObject not found. Make sure it has the correct tag.");
+            Debug.LogError("Player GameObject not found.");
             return;
         }
 
         agent = GetComponentInChildren<NavMeshAgent>();
         if (agent == null)
         {
-            Debug.LogError("NavMeshAgent component not found on the child objects.");
+            Debug.LogError("NavMeshAgent component not found.");
             return;
         }
 
@@ -33,7 +35,14 @@ public class EnemyFollow : MonoBehaviour
 
         if (!agent.isOnNavMesh)
         {
-            Debug.LogError("NavMeshAgent is not on a NavMesh. Ensure the agent is placed on a valid NavMesh.");
+            Debug.LogError("NavMeshAgent is not on a NavMesh.");
+            return;
+        }
+
+        enemyAttack = GetComponent<EnemyAttack>();
+        if(enemyAttack == null)
+        {
+            Debug.LogError("EnemyAttack component not found.");
             return;
         }
     }
@@ -45,7 +54,15 @@ public class EnemyFollow : MonoBehaviour
             float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
             if(distanceToPlayer <= distanceThreshold || isFollowing == true)
             {
-                agent.SetDestination(player.transform.position);
+                if(distanceToPlayer >= stopThreshold)
+                {
+                    agent.SetDestination(player.transform.position);
+                }
+                else
+                {
+                    agent.SetDestination(transform.position);
+                    enemyAttack.AttackPlayer();
+                }
                 isFollowing = true;
             }
         }
