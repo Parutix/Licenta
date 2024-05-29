@@ -9,9 +9,10 @@ public class CharacterController : MonoBehaviour
     public Vector2 PointerInput => pointerInput;
     [SerializeField]
     private InputActionReference movementAction, pointerAction, attackAction;
-
-    public GameObject fireballPrefab;
-    public float fireballSpeed = 5f;
+    public int activeSpell = 1;
+    public GameObject fireballPrefab, iceballPrefab;
+    public float fireballSpeed = 7f;
+    public float iceballSpeed = 3.5f;
 
     private void OnEnable()
     {
@@ -40,10 +41,21 @@ public class CharacterController : MonoBehaviour
     private void CharacterAttack(InputAction.CallbackContext context)
     {
         // Instantiate and launch the fireball
-        GameObject fireball = Instantiate(fireballPrefab, transform.position, Quaternion.identity);
-        Rigidbody2D rb2 = fireball.GetComponent<Rigidbody2D>();
-        Vector2 direction = pointerInput - (Vector2)transform.position;
-        rb2.velocity = direction.normalized * fireballSpeed;
+        if(activeSpell == 1)
+        {
+            GameObject fireball = Instantiate(fireballPrefab, transform.position, Quaternion.identity);
+            Rigidbody2D rb2 = fireball.GetComponent<Rigidbody2D>();
+            Vector2 direction = pointerInput - (Vector2)transform.position;
+            rb2.velocity = direction.normalized * fireballSpeed;
+        }
+        // Instantiate and launch the iceball
+        else
+        {
+            GameObject iceball = Instantiate(iceballPrefab, transform.position, Quaternion.identity);
+            Rigidbody2D rb2 = iceball.GetComponent<Rigidbody2D>();
+            Vector2 direction = pointerInput - (Vector2)transform.position;
+            rb2.velocity = direction.normalized * iceballSpeed;
+        }
     }
 
     private Vector2 getMousePosition()

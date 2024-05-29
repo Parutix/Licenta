@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fireball : MonoBehaviour
+public class Iceball : MonoBehaviour
 {
     void Start()
     {
@@ -16,15 +16,15 @@ public class Fireball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Fireball collided with " + collision.gameObject.name);
+        Debug.Log("Iceball collided with " + collision.gameObject.name);
         EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
         if (enemyHealth != null)
         {
             Debug.Log("Enemy health found");
-            enemyHealth.TakeDamage(20);
+            enemyHealth.TakeDamage(35);
         }
 
-        // Destroy the fireball after collision with any object
+        // Destroy the iceball after collision with any object
         Destroy(gameObject);
     }
 }
