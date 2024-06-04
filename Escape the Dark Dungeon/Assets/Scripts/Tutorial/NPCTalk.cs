@@ -5,6 +5,7 @@ using TMPro;
 
 public class NPCTalk : MonoBehaviour
 {
+    public Transform player;
     [SerializeField]
     private GameObject dialoguePanel;
     [SerializeField]
@@ -15,10 +16,15 @@ public class NPCTalk : MonoBehaviour
     [SerializeField]
     private float wordSpeed;
     private bool isPlayerInRange;
+    [SerializeField]
+    private LeaveFirstRoom leaveFirstRoom;
+    private CharacterController playerController;
+
 
     private void Start()
     {
         dialoguePanel.SetActive(false);
+        playerController = player.GetComponent<CharacterController>();
     }
 
     private void Update()
@@ -39,6 +45,7 @@ public class NPCTalk : MonoBehaviour
             }
             else
             {
+                playerController.enabled = false;   
                 dialoguePanel.SetActive(true);
                 StartCoroutine(TypeText());
             }
@@ -56,6 +63,7 @@ public class NPCTalk : MonoBehaviour
         else
         {
             resetDialogue();
+            leaveFirstRoom.RunOut();
         }
     }
 
@@ -92,4 +100,5 @@ public class NPCTalk : MonoBehaviour
             resetDialogue();
         }
     }
+
 }
