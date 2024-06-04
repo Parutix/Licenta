@@ -43,11 +43,7 @@ public class MoveToCharacter : MonoBehaviour
                 rb.velocity = Vector2.zero;
                 isRunning = false;
                 animator.SetBool("Run", false);
-
-                if (playerController != null)
-                {
-                    playerController.enabled = true;
-                }
+                playerController.enabled = false;
             }
         }
     }

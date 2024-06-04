@@ -27,7 +27,6 @@ public class TutorialMapGenerator : DungeonGenerator
     {
         List<Vector2Int> roomCenters = new List<Vector2Int>();
 
-        // Define fixed positions for the tutorial rooms
         roomCenters.Add(new Vector2Int(0, 0)); // Room 1
         roomCenters.Add(new Vector2Int(roomSize + spaceBetweenRooms, 0)); // Room 2
         roomCenters.Add(new Vector2Int(0, roomSize + spaceBetweenRooms)); // Room 3
@@ -41,10 +40,6 @@ public class TutorialMapGenerator : DungeonGenerator
         HashSet<Vector2Int> roomFloor = CreateFixedRooms(roomCenters);
 
         Vector2Int playerStartRoomCenter = roomCenters[0];
-
-        // SpawnMonstersInRooms(roomCenters, playerStartRoomCenter, roomFloor);
-
-        // Generate corridors between the rooms
         HashSet<Vector2Int> corridors = GenerateCorridors(roomCenters);
         roomFloor.UnionWith(corridors);
 
@@ -108,7 +103,7 @@ public class TutorialMapGenerator : DungeonGenerator
         }
         else
         {
-            return roomCenter; // Fallback to room center if no valid positions are found
+            return roomCenter;
         }
     }
 
