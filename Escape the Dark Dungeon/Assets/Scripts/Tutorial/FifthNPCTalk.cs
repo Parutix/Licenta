@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FourthNPCTalk : MonoBehaviour
+public class FifthNPCTalk : MonoBehaviour
 {
     public Transform player;
     [SerializeField]
@@ -17,13 +17,10 @@ public class FourthNPCTalk : MonoBehaviour
     private float wordSpeed;
     private bool isPlayerInRange;
     private CharacterController playerController;
-    [SerializeField]
-    private ThirdRoomTrial thirdRoomTrial;
     void Start()
     {
         dialoguePanel.SetActive(false);
         playerController = player.GetComponent<CharacterController>();
-        thirdRoomTrial = GetComponent<ThirdRoomTrial>();
     }
 
     void Update()
@@ -63,7 +60,6 @@ public class FourthNPCTalk : MonoBehaviour
         {
             playerController.enabled = true;
             resetDialogue();
-            StartThirdRoomTrial();
         }
     }
 
@@ -98,19 +94,6 @@ public class FourthNPCTalk : MonoBehaviour
         {
             isPlayerInRange = false;
             resetDialogue();
-        }
-    }
-
-    private void StartThirdRoomTrial()
-    {
-        if (thirdRoomTrial != null)
-        {
-            thirdRoomTrial.enabled = true;
-            thirdRoomTrial.LearnAttack();
-        }
-        else
-        {
-            Debug.LogError("ThirdRoomTrial script is not attached to the same GameObject.");
         }
     }
 }

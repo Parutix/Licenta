@@ -9,6 +9,7 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField]
     private int maxHealth = 100;
+    [SerializeField]
     private int currentHealth;
     [SerializeField]
     private Image healthBar;
@@ -17,7 +18,11 @@ public class HealthBar : MonoBehaviour
     // private Color lowHealth = Color.red;
     void Start()
     {
-        currentHealth = maxHealth;
+        if(currentHealth != maxHealth)
+        {
+            currentHealth = 60;
+        }
+        UpdateHealth();
     }
 
     // Update is called once per frame
