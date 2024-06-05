@@ -42,6 +42,18 @@ public class GuideText : MonoBehaviour
         StartCoroutine(waitForHealPress());
     }
 
+    public void setAttackText()
+    {
+        guideText.text = "Press Q to change to Iceball";
+        StartCoroutine(waitForAttackPress());
+    }
+
+    private IEnumerator waitForAttackPress()
+    {
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Q));
+        guideText.text = "";
+    }
+
     private IEnumerator waitForSpacePress()
     {
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));

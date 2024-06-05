@@ -675,6 +675,7 @@ GameObject:
   - component: {fileID: 364695709}
   - component: {fileID: 364695708}
   - component: {fileID: 364695707}
+  - component: {fileID: 364695710}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
@@ -794,6 +795,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &364695710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364695706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a619b693d595dd241a60e49bf1d1ebcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &473574142
 GameObject:
   m_ObjectHideFlags: 0
@@ -3725,6 +3738,8 @@ GameObject:
   - component: {fileID: 1050299483}
   - component: {fileID: 1050299484}
   - component: {fileID: 1050299485}
+  - component: {fileID: 1050299487}
+  - component: {fileID: 1050299486}
   m_Layer: 0
   m_Name: Helper
   m_TagString: Untagged
@@ -4079,6 +4094,42 @@ MonoBehaviour:
   - Hey, Wait! Can you use your iceball to destroy that barrel?
   dialogueText: {fileID: 295495584}
   wordSpeed: 0.03
+  thirdRoomTrial: {fileID: 0}
+--- !u!114 &1050299486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050299471}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d15f32a36b9807a4abcba565851961e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1769988807}
+  dialoguePanel: {fileID: 1236284650}
+  dialogue:
+  - Amazing! I still don't get it how you create those iceballs from nothing!
+  - Anyway, to get out you have to go through there, but be careful, there are a
+    lot of monsters still lurking around!
+  - 'I hope we meet again if we make it through this. Maybe we will go drink an ale,
+    my treat. '
+  dialogueText: {fileID: 295495584}
+  wordSpeed: 0.03
+--- !u!114 &1050299487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050299471}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b47f7ece00b9f43448a57e60e8f3aa6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guideText: {fileID: 157614187}
 --- !u!1 &1149541354
 GameObject:
   m_ObjectHideFlags: 0
@@ -9845,6 +9896,98 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590315410}
   m_CullTransparentMesh: 1
+--- !u!1 &1608854603
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1608854606}
+  - component: {fileID: 1608854605}
+  - component: {fileID: 1608854604}
+  m_Layer: 0
+  m_Name: Finish
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1608854604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608854603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e96f3a5cdf33cf458480813dc5efbf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 1
+  blackImage: {fileID: 310529321}
+--- !u!61 &1608854605
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608854603}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!4 &1608854606
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608854603}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 52.05, y: 0.53, z: 4.097003}
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1654219863
 GameObject:
   m_ObjectHideFlags: 0
@@ -10024,6 +10167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  currentHealth: 60
   healthBar: {fileID: 1270551537}
 --- !u!114 &1769988800
 MonoBehaviour:
@@ -10577,3 +10721,4 @@ SceneRoots:
   - {fileID: 2126241875}
   - {fileID: 745615044}
   - {fileID: 364695709}
+  - {fileID: 1608854606}
