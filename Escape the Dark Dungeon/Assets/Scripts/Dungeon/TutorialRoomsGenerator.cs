@@ -29,8 +29,8 @@ public class TutorialMapGenerator : DungeonGenerator
 
         roomCenters.Add(new Vector2Int(0, 0)); // Room 1
         roomCenters.Add(new Vector2Int(roomSize + spaceBetweenRooms, 0)); // Room 2
-        roomCenters.Add(new Vector2Int(0, roomSize + spaceBetweenRooms)); // Room 3
-        roomCenters.Add(new Vector2Int(roomSize + spaceBetweenRooms, roomSize + spaceBetweenRooms)); // Room 4
+        roomCenters.Add(new Vector2Int((roomSize + spaceBetweenRooms) * 2, 0)); // Room 3
+        roomCenters.Add(new Vector2Int((roomSize + spaceBetweenRooms) * 3, 0)); // Room 4
 
         if (roomCenters.Count > 4)
         {

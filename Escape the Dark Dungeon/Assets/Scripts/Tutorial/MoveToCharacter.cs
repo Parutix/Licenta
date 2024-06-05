@@ -11,6 +11,8 @@ public class MoveToCharacter : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
     private CharacterController playerController;
+    [SerializeField]
+    private GuideText guideText;
 
     void Start()
     {
@@ -44,6 +46,7 @@ public class MoveToCharacter : MonoBehaviour
                 isRunning = false;
                 animator.SetBool("Run", false);
                 playerController.enabled = false;
+                guideText.setDialogueText();
             }
         }
     }

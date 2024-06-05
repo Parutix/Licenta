@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-public class NPCTalk : MonoBehaviour
+public class ThirdNPCTalk : MonoBehaviour
 {
     public Transform player;
     [SerializeField]
@@ -17,18 +16,16 @@ public class NPCTalk : MonoBehaviour
     [SerializeField]
     private float wordSpeed;
     private bool isPlayerInRange;
-    [SerializeField]
-    private LeaveFirstRoom leaveFirstRoom;
     private CharacterController playerController;
-
-
-    private void Start()
+    private LeaveSecondRoom leaveSecondRoom;
+    void Start()
     {
         dialoguePanel.SetActive(false);
         playerController = player.GetComponent<CharacterController>();
+        leaveSecondRoom = GetComponent<LeaveSecondRoom>();
     }
 
-    private void Update()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isPlayerInRange)
         {
@@ -46,7 +43,7 @@ public class NPCTalk : MonoBehaviour
             }
             else
             {
-                playerController.enabled = false;   
+                playerController.enabled = false;
                 dialoguePanel.SetActive(true);
                 StartCoroutine(TypeText());
             }
@@ -64,7 +61,8 @@ public class NPCTalk : MonoBehaviour
         else
         {
             resetDialogue();
-            leaveFirstRoom.RunOut();
+            leaveSecondRoom.enabled = true;
+            leaveSecondRoom.RunOutRoomTwo();
         }
     }
 
@@ -101,5 +99,4 @@ public class NPCTalk : MonoBehaviour
             resetDialogue();
         }
     }
-
 }

@@ -17,6 +17,12 @@ public class LeaveFirstRoom : MonoBehaviour
     private Rigidbody2D rb;
     private bool isFacingRight = true;
     private CharacterController playerController;
+    [SerializeField]
+    private GuideText guideText;
+    [SerializeField]
+    private GameObject secondSpawn;
+    [SerializeField]
+    private Sprite sprite;
 
     void Start()
     {
@@ -51,9 +57,52 @@ public class LeaveFirstRoom : MonoBehaviour
             {
                 Destroy(NPC);
                 playerController.enabled = true;
+                guideText.setMoveText();
                 rb.velocity = Vector2.zero;
                 animator.SetBool("Run Right", false); 
                 isRunning = false;
+                GameObject secondNPC = Instantiate(NPC, secondSpawn.transform.position, Quaternion.identity);
+                SpriteRenderer spriteRenderer = secondNPC.GetComponent<SpriteRenderer>();
+                if(spriteRenderer != null)
+                {
+                    spriteRenderer.sprite = sprite;
+                }
+
+                SecondNPCTalk secondNPCTalk = secondNPC.GetComponent<SecondNPCTalk>();
+                if(secondNPCTalk != null)
+                {
+                    secondNPCTalk.enabled = true;
+                }
+
+                Animator secondAnimator = secondNPC.GetComponent<Animator>();
+                if(secondAnimator != null)
+                {
+                    secondAnimator.enabled = true;
+                }
+
+                Rigidbody2D secondRigidbody = secondNPC.GetComponent<Rigidbody2D>();
+                if (secondRigidbody != null)
+                {
+                    secondRigidbody.simulated = true;
+                }
+
+                CapsuleCollider2D secondCapsuleCollider = secondNPC.GetComponent<CapsuleCollider2D>();
+                if (secondCapsuleCollider != null)
+                {
+                    secondCapsuleCollider.enabled = true;
+                }
+
+                BoxCollider2D secondBoxCollider = secondNPC.GetComponent<BoxCollider2D>();
+                if (secondBoxCollider != null)
+                {
+                    secondBoxCollider.enabled = true;
+                }
+
+                SecondRoomTrial secondRoomTrial = secondNPC.GetComponent<SecondRoomTrial>();  
+                if(secondRoomTrial != null)
+                {
+                    secondRoomTrial.enabled = true;
+                }
             }
         }
     }
