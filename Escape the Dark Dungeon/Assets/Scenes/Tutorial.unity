@@ -553,7 +553,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
-    m_FontSize: 45
+    m_FontSize: 36
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
@@ -3740,6 +3740,7 @@ GameObject:
   - component: {fileID: 1050299485}
   - component: {fileID: 1050299487}
   - component: {fileID: 1050299486}
+  - component: {fileID: 1050299488}
   m_Layer: 0
   m_Name: Helper
   m_TagString: Untagged
@@ -3972,12 +3973,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1769988807}
   dialoguePanel: {fileID: 1236284650}
-  dialogue:
-  - Thank the Lord! I thought I was the only one left alive!
-  - The monsters took over the Kingdom! All hope is lost..
-  - Wait.. are you.. the king's mage?
-  - Maybe it's not over afterall.. I've heard a lot about you and your spells.
-  - Follow me to the next room, I will guide you out of here!
   dialogueText: {fileID: 295495584}
   wordSpeed: 0.03
   leaveFirstRoom: {fileID: 1050299480}
@@ -4015,9 +4010,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1769988807}
   dialoguePanel: {fileID: 1236284650}
-  dialogue:
-  - Wait.. How do I know I can trust you? Are you really the King's Mage after all?
-  - I know! The King's Mage can DASH and HEAL himself. Prove it to me!
   dialogueText: {fileID: 295495584}
   wordSpeed: 0.03
   showPlayerHUD: {fileID: 1654219868}
@@ -4049,10 +4041,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1769988807}
   dialoguePanel: {fileID: 1236284650}
-  dialogue:
-  - So it really is you. I have only heard from other soldiers about your magic.
-  - I am really sorry for doubting you.. let us continue our road, we are halfway
-    there.
   dialogueText: {fileID: 295495584}
   wordSpeed: 0.03
 --- !u!114 &1050299484
@@ -4088,10 +4076,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1769988807}
   dialoguePanel: {fileID: 1236284650}
-  dialogue:
-  - The exit is through there, but we have a barrel blocking the corridor.. I would
-    have helped you but I lost my sword.
-  - Hey, Wait! Can you use your iceball to destroy that barrel?
   dialogueText: {fileID: 295495584}
   wordSpeed: 0.03
   thirdRoomTrial: {fileID: 0}
@@ -4109,12 +4093,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1769988807}
   dialoguePanel: {fileID: 1236284650}
-  dialogue:
-  - Amazing! I still don't get it how you create those iceballs from nothing!
-  - Anyway, to get out you have to go through there, but be careful, there are a
-    lot of monsters still lurking around!
-  - 'I hope we meet again if we make it through this. Maybe we will go drink an ale,
-    my treat. '
   dialogueText: {fileID: 295495584}
   wordSpeed: 0.03
 --- !u!114 &1050299487
@@ -4130,6 +4108,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guideText: {fileID: 157614187}
+--- !u!114 &1050299488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050299471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 128d454ad772f184798e0e6724a0ce12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1149541354
 GameObject:
   m_ObjectHideFlags: 0
