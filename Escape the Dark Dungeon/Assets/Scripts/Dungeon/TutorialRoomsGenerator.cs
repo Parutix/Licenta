@@ -65,22 +65,6 @@ public class TutorialMapGenerator : DungeonGenerator
         return roomFloor;
     }
 
-    private void SpawnMonstersInRooms(List<Vector2Int> roomCenters, Vector2Int playerStartRoomCenter, HashSet<Vector2Int> roomFloor)
-    {
-        foreach (var roomCenter in roomCenters)
-        {
-            if (roomCenter != playerStartRoomCenter)
-            {
-                int monsterCount = UnityEngine.Random.Range(1, 3); // Spawns between 1 and 2 monsters
-                for (int i = 0; i < monsterCount; i++)
-                {
-                    Vector2Int spawnPosition = GetValidSpawnPosition(roomCenter, roomFloor);
-                    Instantiate(monsterPrefab, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
-                }
-            }
-        }
-    }
-
     private Vector2Int GetValidSpawnPosition(Vector2Int roomCenter, HashSet<Vector2Int> roomFloor)
     {
         List<Vector2Int> validSpawnPositions = new List<Vector2Int>();

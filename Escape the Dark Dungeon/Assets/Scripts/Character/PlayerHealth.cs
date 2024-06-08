@@ -28,7 +28,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(4);
         }
         health.text = "Health: " + currentHealth;
         if (currentHealth <= 0)
