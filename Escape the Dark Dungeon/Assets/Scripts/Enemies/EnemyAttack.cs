@@ -15,7 +15,9 @@ public class EnemyAttack : MonoBehaviour
     private float timeBetweenAttacks = 1f;
     private bool isFacingRight = true;
     private bool isAttacking = false;
-    public bool IsAttacking => IsAttacking;
+    public bool IsAttacking => isAttacking;
+    private EnemyFollow enemyFollow;
+
     void Start()
     {
         GameObject player = GameObject.Find("Player");
@@ -44,6 +46,11 @@ public class EnemyAttack : MonoBehaviour
             Debug.LogError("NavMeshAgent component not found.");
         }
 
+        enemyFollow = GetComponent<EnemyFollow>();
+        if (enemyFollow == null)
+        {
+            Debug.LogError("EnemyFollow component not found.");
+        }
     }
 
     private void Update()
@@ -54,9 +61,9 @@ public class EnemyAttack : MonoBehaviour
             bool Run = velocity.magnitude > 0;
             animator.SetBool("Run", Run);
 
-            if(Run)
+            if (Run)
             {
-                if(velocity.x < 0 && isFacingRight)
+                if (velocity.x < 0 && isFacingRight)
                 {
                     FlipPosition();
                 }
@@ -77,32 +84,21 @@ public class EnemyAttack : MonoBehaviour
         transform.localScale = scale;
     }
 
-    // First prototype of attack - on collision
-
-    /*private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Player hit");
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(enemyDamage);
-            }
-            else
-            {
-                Debug.LogError("PlayerHealth reference is null.");
-            }
-        }
-    }*/
-
     private IEnumerator AttackRoutine()
     {
         isAttacking = true;
-        while(isAttacking)
+        while (isAttacking)
         {
-            yield return new WaitForSeconds(timeBetweenAttacks);
-            ProcessAttack();
-            yield return new WaitForSeconds(timeBetweenAttacks);
+            if (!enemyFollow.IsFollowing)
+            {
+                yield return new WaitForSeconds(timeBetweenAttacks);
+                ProcessAttack();
+                yield return new WaitForSeconds(timeBetweenAttacks);
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
 
@@ -114,7 +110,7 @@ public class EnemyAttack : MonoBehaviour
 
     public void AttackPlayer()
     {
-        if(!isAttacking)
+        if (!isAttacking)
         {
             StartCoroutine(AttackRoutine());
         }
@@ -124,6 +120,4 @@ public class EnemyAttack : MonoBehaviour
     {
         isAttacking = false;
     }
-
-
 }

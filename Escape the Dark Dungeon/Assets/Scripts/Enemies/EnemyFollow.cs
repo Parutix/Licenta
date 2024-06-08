@@ -14,6 +14,8 @@ public class EnemyFollow : MonoBehaviour
     private bool isFollowing = false;
     private EnemyAttack enemyAttack;
 
+    public bool IsFollowing => isFollowing;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -40,7 +42,7 @@ public class EnemyFollow : MonoBehaviour
         }
 
         enemyAttack = GetComponent<EnemyAttack>();
-        if(enemyAttack == null)
+        if (enemyAttack == null)
         {
             Debug.LogError("EnemyAttack component not found.");
             return;
@@ -52,18 +54,19 @@ public class EnemyFollow : MonoBehaviour
         if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh && player != null)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-            if(distanceToPlayer <= distanceThreshold || isFollowing == true)
+            if (distanceToPlayer <= distanceThreshold || isFollowing == true)
             {
-                if(distanceToPlayer >= stopThreshold)
+                if (distanceToPlayer >= stopThreshold)
                 {
                     agent.SetDestination(player.transform.position);
+                    isFollowing = true;
                 }
                 else
                 {
                     agent.SetDestination(transform.position);
                     enemyAttack.AttackPlayer();
+                    isFollowing = false;
                 }
-                isFollowing = true;
             }
         }
     }

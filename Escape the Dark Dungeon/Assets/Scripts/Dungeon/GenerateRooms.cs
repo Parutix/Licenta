@@ -21,7 +21,11 @@ public class GenerateRooms : DungeonGenerator
     [SerializeField]
     private bool randomWalk = false;
     [SerializeField]
-    private GameObject monsterPrefab; // Monster prefab to spawn
+    private GameObject monsterPrefab1; // Monster prefab for closer rooms
+    [SerializeField]
+    private GameObject monsterPrefab2; // Monster prefab for farther rooms
+    [SerializeField]
+    private float distanceThreshold = 10.0f; // Threshold distance to switch monster prefabs
     [SerializeField]
     private GameObject player; // Reference to the player GameObject
     [SerializeField]
@@ -189,21 +193,25 @@ public class GenerateRooms : DungeonGenerator
 
     private void SpawnMonstersInRooms(List<Vector2Int> roomCenters, Vector2Int playerStartRoomCenter, HashSet<Vector2Int> roomFloor)
     {
+        Vector2Int playerPosition = Vector2Int.RoundToInt(player.transform.position);
+
         foreach (var roomCenter in roomCenters)
         {
             if (roomCenter != playerStartRoomCenter)
             {
+                float distanceFromPlayer = Vector2Int.Distance(playerPosition, roomCenter);
+                GameObject monsterPrefabToUse = (distanceFromPlayer > distanceThreshold) ? monsterPrefab2 : monsterPrefab1;
+
                 int monsterCount = UnityEngine.Random.Range(2, 4); // Spawns between 2 and 3 monsters
                 for (int i = 0; i < monsterCount; i++)
                 {
                     Vector2Int spawnPosition = GetValidSpawnPosition(roomCenter, roomFloor);
-                    GameObject monster = Instantiate(monsterPrefab, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
+                    Instantiate(monsterPrefabToUse, new Vector3(spawnPosition.x, spawnPosition.y, 0), Quaternion.identity);
                 }
             }
         }
     }
 
-    // Function so monsters don't spawn outside of the room
     private Vector2Int GetValidSpawnPosition(Vector2Int roomCenter, HashSet<Vector2Int> roomFloor)
     {
         List<Vector2Int> validSpawnPositions = new List<Vector2Int>();
