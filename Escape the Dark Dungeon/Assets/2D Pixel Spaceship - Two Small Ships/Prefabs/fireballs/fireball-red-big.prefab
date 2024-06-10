@@ -161,3 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13ca2a81dc1f4043a1792904d7d2168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialDamage: 20
+  dotDamage: 4
+  dotDuration: 3
+  dotInterval: 1
+  fireballColor: {r: 1, g: 0, b: 0, a: 1}
+  colorDuration: 3

@@ -161,3 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7a9a420566692408231d19a2b4cab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 35
+  slowDuration: 3
+  slowAmount: 0.5
+  iceballColor: {r: 0, g: 0, b: 1, a: 1}
+  colorDuration: 3
