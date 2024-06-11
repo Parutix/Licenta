@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class EnemiesCount : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI countEnemies;
+    private Text countEnemies;
     private int killedEnemies = 0;
     private int totalMonsters = 0;
 
@@ -33,5 +34,9 @@ public class EnemiesCount : MonoBehaviour
     {
         killedEnemies++;
         countEnemies.text = killedEnemies + " / " + totalMonsters + " Monsters Killed";
+        if(killedEnemies == totalMonsters)
+        {
+            SceneManager.LoadScene(4);
+        }
     }
 }
