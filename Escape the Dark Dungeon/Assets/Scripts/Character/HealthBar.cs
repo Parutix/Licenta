@@ -43,7 +43,7 @@ public class HealthBar : MonoBehaviour
         if (currentHealth <= 0)
         {
             Destroy(gameObject);
-            SceneManager.LoadScene(5);
+            SceneManager.LoadScene(6);
         }
         else
         {
