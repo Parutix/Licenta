@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BossHealthBar : MonoBehaviour
 {
-    [SerializeField]
-    private int maxHealth = 1500;
-    [SerializeField]
-    private int currentHealth;
-    [SerializeField]
-    private Image healthBar;
+    public int maxHealth = 2500;
+    public int currentHealth;
+    public Image healthBar;
     void Start()
     {
         currentHealth = maxHealth;
@@ -34,6 +32,7 @@ public class BossHealthBar : MonoBehaviour
         {
             currentHealth = 0;
             Destroy(gameObject);
+            SceneManager.LoadScene(7);
         }
     }
 }

@@ -6,15 +6,19 @@ public class BossAttacks : MonoBehaviour
 {
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float projectileSpeed = 5f;
-    [SerializeField] private float attackInterval = 15f;
+    [SerializeField] private float attackInterval = 10f;
+    [SerializeField] private float fastAttackInterval = 5f;
+    private float currentAttackInterval;
     private HealthBar playerHealth;
     private float attackTimer;
     private int currentAttackIndex;
     private List<System.Action> attackPatterns;
+    private BossHealthBar bossHealthBar;
 
     void Start()
     {
         attackTimer = attackInterval;
+        currentAttackInterval = attackInterval;
         currentAttackIndex = 0;
 
         attackPatterns = new List<System.Action>
@@ -23,6 +27,7 @@ public class BossAttacks : MonoBehaviour
             RadialBurstAttack,
             TargetedShotAttack
         };
+
         GameObject player = GameObject.Find("Player");
         if (player != null)
         {
@@ -32,15 +37,37 @@ public class BossAttacks : MonoBehaviour
                 Debug.LogError("PlayerHealth component not found.");
             }
         }
+
+        GameObject boss = GameObject.Find("Boss");
+        if (boss != null)
+        {
+            bossHealthBar = boss.GetComponent<BossHealthBar>();
+            if (bossHealthBar == null)
+            {
+                Debug.LogError("BossHealthBar component not found.");
+            }
+        }
     }
 
     void Update()
     {
+        if (bossHealthBar != null)
+        {
+            if (bossHealthBar.currentHealth <= bossHealthBar.maxHealth / 2)
+            {
+                currentAttackInterval = fastAttackInterval;
+            }
+            else
+            {
+                currentAttackInterval = attackInterval;
+            }
+        }
+
         attackTimer -= Time.deltaTime;
 
         if (attackTimer <= 0f)
         {
-            attackTimer = attackInterval;
+            attackTimer = currentAttackInterval;
             PerformAttack();
             currentAttackIndex = (currentAttackIndex + 1) % attackPatterns.Count;
         }
