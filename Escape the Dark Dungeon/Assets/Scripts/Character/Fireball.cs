@@ -4,7 +4,7 @@ using UnityEngine;
 public class Fireball : MonoBehaviour
 {
     [SerializeField]
-    private int initialDamage = 20;
+    private int damage = 20;
     [SerializeField]
     private int dotDamage = 15;
     [SerializeField]
@@ -19,13 +19,23 @@ public class Fireball : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Fireball collided with " + collision.gameObject.name);
-        EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
-        if (enemyHealth != null)
+
+        BossHealthBar bossHealth = collision.gameObject.GetComponent<BossHealthBar>();
+        if (bossHealth != null)
         {
-            Debug.Log("Enemy health found");
-            enemyHealth.TakeDamage(initialDamage);
-            enemyHealth.ChangeColor(fireballColor, colorDuration);
-            enemyHealth.ApplyDamageOverTime(dotDamage, dotDuration, dotInterval);
+            Debug.Log("Boss health found");
+            bossHealth.BossTakeDamage(damage);
+        }
+        else
+        {
+            EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                Debug.Log("Enemy health found");
+                enemyHealth.TakeDamage(damage);
+                enemyHealth.ChangeColor(fireballColor, colorDuration);
+                enemyHealth.ApplyDamageOverTime(dotDamage, dotDuration, dotInterval);
+            }
         }
         Destroy(gameObject);
     }

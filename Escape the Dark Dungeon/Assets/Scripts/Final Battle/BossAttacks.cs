@@ -7,7 +7,7 @@ public class BossAttacks : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float projectileSpeed = 5f;
     [SerializeField] private float attackInterval = 15f;
-
+    private HealthBar playerHealth;
     private float attackTimer;
     private int currentAttackIndex;
     private List<System.Action> attackPatterns;
@@ -23,6 +23,15 @@ public class BossAttacks : MonoBehaviour
             RadialBurstAttack,
             TargetedShotAttack
         };
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            playerHealth = player.GetComponent<HealthBar>();
+            if (playerHealth == null)
+            {
+                Debug.LogError("PlayerHealth component not found.");
+            }
+        }
     }
 
     void Update()

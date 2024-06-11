@@ -18,20 +18,31 @@ public class Iceball : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Iceball collided with " + collision.gameObject.name);
-        EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
-        if (enemyHealth != null)
+
+        BossHealthBar bossHealth = collision.gameObject.GetComponent<BossHealthBar>();
+        if (bossHealth != null)
         {
-            Debug.Log("Enemy health found");
-            enemyHealth.TakeDamage(damage);
-            enemyHealth.ChangeColor(iceballColor, colorDuration);
-            StartCoroutine(ApplySlowEffect(enemyHealth));
+            Debug.Log("Boss health found");
+            bossHealth.BossTakeDamage(damage);
+            StartCoroutine(ApplySlowEffect(bossHealth.gameObject));
+        }
+        else
+        {
+            EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                Debug.Log("Enemy health found");
+                enemyHealth.TakeDamage(damage);
+                enemyHealth.ChangeColor(iceballColor, colorDuration);
+                StartCoroutine(ApplySlowEffect(enemyHealth.gameObject));
+            }
         }
         Destroy(gameObject);
     }
 
-    private IEnumerator ApplySlowEffect(EnemyHealth enemyHealth)
+    private IEnumerator ApplySlowEffect(GameObject target)
     {
-        NavMeshAgent agent = enemyHealth.GetComponentInChildren<NavMeshAgent>();
+        NavMeshAgent agent = target.GetComponentInChildren<NavMeshAgent>();
         if (agent != null)
         {
             float originalSpeed = agent.speed;

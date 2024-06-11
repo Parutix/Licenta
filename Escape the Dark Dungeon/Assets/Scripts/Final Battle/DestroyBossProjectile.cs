@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DestroyBossProjectile : MonoBehaviour
 {
+    private int damage = 40;
     public LayerMask projectileLayer;
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -23,6 +24,16 @@ public class DestroyBossProjectile : MonoBehaviour
         if (collision.gameObject.name == "Boss")
         {
             return;
+        }
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            HealthBar playerHealth = collision.gameObject.GetComponent<HealthBar>();
+            if (playerHealth != null)
+            {
+                Debug.Log("Player took " + damage + " damage");
+                playerHealth.TakeDamage(damage);
+            }
         }
 
         Destroy(gameObject);

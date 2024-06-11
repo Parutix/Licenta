@@ -42,9 +42,8 @@ public class HealthBar : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
-            Debug.Log("Player destroyed");
             Destroy(gameObject);
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(5);
         }
         else
         {
