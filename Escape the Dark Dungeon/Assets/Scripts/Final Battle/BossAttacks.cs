@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class BossAttacks : MonoBehaviour
 {
-    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private GameObject firstProjectile;
+    [SerializeField] private GameObject secondProjectile;
+    [SerializeField] private GameObject thirdProjectile;
     [SerializeField] private float projectileSpeed = 5f;
     [SerializeField] private float attackInterval = 10f;
     [SerializeField] private float fastAttackInterval = 5f;
@@ -93,11 +95,10 @@ public class BossAttacks : MonoBehaviour
         {
             float projectileDirX = transform.position.x + Mathf.Sin((currentAngle * Mathf.PI) / 180);
             float projectileDirY = transform.position.y + Mathf.Cos((currentAngle * Mathf.PI) / 180);
-
             Vector3 projectileVector = new Vector3(projectileDirX, projectileDirY, 0f);
             Vector3 projectileMoveDirection = (projectileVector - transform.position).normalized * projectileSpeed;
 
-            GameObject proj = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            GameObject proj = Instantiate(firstProjectile, transform.position, Quaternion.identity);
             proj.GetComponent<Rigidbody2D>().velocity = new Vector2(projectileMoveDirection.x, projectileMoveDirection.y);
 
             currentAngle += angleStep;
@@ -119,7 +120,7 @@ public class BossAttacks : MonoBehaviour
             Vector3 projectileVector = new Vector3(projectileDirX, projectileDirY, 0f);
             Vector3 projectileMoveDirection = projectileVector.normalized * projectileSpeed;
 
-            GameObject proj = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            GameObject proj = Instantiate(secondProjectile, transform.position, Quaternion.identity);
             proj.GetComponent<Rigidbody2D>().velocity = new Vector2(projectileMoveDirection.x, projectileMoveDirection.y);
         }
     }
@@ -130,7 +131,7 @@ public class BossAttacks : MonoBehaviour
         if (player != null)
         {
             Vector3 direction = (player.transform.position - transform.position).normalized * projectileSpeed;
-            GameObject proj = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            GameObject proj = Instantiate(thirdProjectile, transform.position, Quaternion.identity);
             proj.GetComponent<Rigidbody2D>().velocity = new Vector2(direction.x, direction.y);
         }
     }

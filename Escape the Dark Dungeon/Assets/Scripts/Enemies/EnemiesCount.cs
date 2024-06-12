@@ -9,6 +9,8 @@ public class EnemiesCount : MonoBehaviour
 {
     [SerializeField]
     private Text countEnemies;
+    [SerializeField]
+    private GameFadeOut fadeOut;
     private int killedEnemies = 0;
     private int totalMonsters = 0;
 
@@ -36,7 +38,14 @@ public class EnemiesCount : MonoBehaviour
         countEnemies.text = killedEnemies + " / " + totalMonsters + " Monsters Killed";
         if(killedEnemies == totalMonsters)
         {
-            SceneManager.LoadScene(4);
+            StartCoroutine(HandleFinishDungeon());
         }
+    }
+
+    private IEnumerator HandleFinishDungeon()
+    {
+        fadeOut.StartCoroutine(fadeOut.FadeOut());  
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene(4);
     }
 }
