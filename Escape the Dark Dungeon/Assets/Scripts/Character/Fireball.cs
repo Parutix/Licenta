@@ -4,7 +4,7 @@ using UnityEngine;
 public class Fireball : MonoBehaviour
 {
     [SerializeField]
-    private int damage = 20;
+    private int damage = 200;
     [SerializeField]
     private int dotDamage = 15;
     [SerializeField]
