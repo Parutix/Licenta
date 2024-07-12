@@ -9,7 +9,7 @@ using SimpleJSON;
 
 public class APIChatGPT : MonoBehaviour
 {
-    private const string APIKey = "sk-proj-ttgfw78ZRAjXGtmuB2s3T3BlbkFJOpLiZq2JJjsLRKGOzAVk";
+    private const string APIKey = "";
     private const string ChatGPTURL = "https://api.openai.com/v1/completions";
 
     public async Task CompleteDialogue(string dialoguePrompt, Action<string> onComplete)
